@@ -15,13 +15,7 @@ class App extends Component {
       quizTitle: "",
       author: "",
       key: Date.now(),
-      questionGroup: [
-        {
-          key: Date.now(),
-          question: "",
-          answerGroup: [{ key: Date.now(), text: "", correctAnswer: true }]
-        }
-      ],
+      questions: [], answers: [], numQuestions: 1
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -38,9 +32,27 @@ class App extends Component {
     });
   }
 
-  handleSubmit(event) {
-    event.preventDefault();
-    console.log(this.state);
+  handleSubmit = () => {
+    var questions = [];
+    this.state.questions.map((questionObject) => {
+      questions.push({
+         id: questionObject.qid,
+        questionText: questionObject.value,
+        answers: this.state.answers.filter((answer) => answer.id = questionObject.id)
+      });
+    });
+  }
+
+  handleAnswerChange = (questionIdx, event) => {
+    this.setState({
+      answers: this.state.questions.push({qid: questionIdx, value: event.value})
+    });
+  }
+
+  handleQuesitonChange = (questionIdx, event) => {
+    this.setState({
+      answers: this.state.answers.push({qid: questionIdx, value: event.value})
+    });
   }
 
   answersGenerator = ()  => {
@@ -55,6 +67,10 @@ class App extends Component {
 
     }
   }
+
+  addQuestion = () => {
+    this.setState({numQuestions: this.state.numQuestions + 1});
+   }
 
   render() {
     return (
@@ -100,26 +116,18 @@ class App extends Component {
                 </div>
 
                 <div className="questions" id="questions">
-                  <div className="question" id={'questionGroup' + questionNum}>
-                    <div className="field">
-                      <label className="label" id={'question' + questionNum}>Question {questionNum}</label>
-                      <div className="control">
-                        <input
-                          className="input"
-                          type="text"
-                          name='question'
-                          value={this.state.question}
-                          onChange={this.handleChange}
-                        />
+                  {Array(this.state.numQuestions).fill().map((number, questionIdx) => {
+                    return (
+                      <div> 
+                        <label>Question</label>
+                      <input type="text" onChange={this.handleQuestionChange.bind(questionIdx)}  />
                       </div>
-                    </div>
-
-                <div className="answersDiv">
-                <label className="label">Answers</label>
-                {this.answersGenerator()}
+                      {Array(4).fill().map((number, index) => {
+                      return <input type="text" key={index} onChange={this.handleAnswerChange.bind(questionIdx)}  />
+                      })}
+                      )
+                  })}
                 </div>
-                </div>
-              </div>
               <div className="field">
                   <div className="endButtons">
                     <button id="addQuestionButton"
@@ -155,23 +163,6 @@ class App extends Component {
     );
   }
 }
-
-
-function addQuestion () {
-  questionNum++;
-  console.log(questionNum + "that is the question number");
-
-  this.setState ({
-    questionGroup: this.state.questionGroup.concat({
-      key: Date.now(),
-      question: "",
-      answerGroup: [{ key: Date.now(), text: "", correctAnswer: true }]
-    })
-  })
-
-
-}
-
 
 export default App;
 
