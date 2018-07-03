@@ -1,0 +1,47 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 80px;
+}
+
+.App-header {
+  background-color: #222;
+  height: 150px;
+  padding: 20px;
+  color: white;
+}
+
+.App-title {
+  font-size: 1.5em;
+}
+
+.App-intro {
+  font-size: large;
+}
+
+.formDiv {
+  /* Just to center the form on the page */
+  margin: auto;
+  width: 400px;
+  /* To see the outline of the form */
+  padding: 25px 25px 40px 25px;
+  border: 1px solid #CCC;
+  border-radius: 1em;
+}
+
+
+#addQuestionButton {
+  float: left;
+}
+
+#submitButton {
+  float: right;
+}
+
+@keyframes App-logo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
