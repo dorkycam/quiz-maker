@@ -121,11 +121,11 @@ class App extends Component {
                       <div> 
                         <label>Question</label>
                       <input type="text" onChange={this.handleQuestionChange.bind(questionIdx)}  />
-                      </div>
-                      {Array(4).fill().map((number, index) => {
-                      return <input type="text" key={index} onChange={this.handleAnswerChange.bind(questionIdx)}  />
-                      })}
-                      )
+                      </div>);
+                  Array(4).fill().map((number, index) => {
+                  return <input type="text" key={index} onChange={this.handleAnswerChange.bind(questionIdx)}  />
+                  })}
+                  )
                   })}
                 </div>
               <div className="field">
