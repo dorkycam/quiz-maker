@@ -32,6 +32,9 @@
   border-radius: 1em;
 }
 
+/*input {
+  margin: 10px;
+}*/
 
 #addQuestionButton {
   float: left;

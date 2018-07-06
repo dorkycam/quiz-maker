@@ -3,9 +3,8 @@ import PropTypes from 'prop-types';
 import logo from './logo.svg';
 import './App.css';
 
-var questionNum = 1;
-var answerNum = 1;
-var question = "question" + questionNum;
+const uuidv4 = require('uuid/v4');
+uuidv4();
 
 class App extends Component {
 
@@ -14,8 +13,16 @@ class App extends Component {
     this.state = {
       quizTitle: "",
       author: "",
-      key: Date.now(),
-      questions: [], answers: [], numQuestions: 1
+      key: uuidv4(),
+      questions: [], answers: [], 
+      numQuestions: [{number: '', key: uuidv4()}],
+      // question: [
+      //   {
+      //     questions: '',
+      //     answers: '',
+      //     key: Date.now()
+      //   }
+      // ]
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -49,7 +56,7 @@ class App extends Component {
     });
   }
 
-  handleQuesitonChange = (questionIdx, event) => {
+  handleQuestionChange = (questionIdx, event) => {
     this.setState({
       answers: this.state.answers.push({qid: questionIdx, value: event.value})
     });
@@ -61,15 +68,20 @@ class App extends Component {
       
       this.setState ({
         answerGroup: this.state.answerGroup.concat({
-          key: Date.now(), text: "", correctAnswer: true
+          key: uuidv4(), text: "", correctAnswer: true
         })
       });
 
     }
   }
 
-  addQuestion = () => {
-    this.setState({numQuestions: this.state.numQuestions + 1});
+  addQuestion = (e) => {
+    e.preventDefault();
+    this.setState({numQuestions: this.state.numQuestions.concat({
+      number: '', 
+      key: Date.now()
+      })
+    });
    }
 
   render() {
@@ -91,7 +103,6 @@ class App extends Component {
               <form className="form" onSubmit={this.handleSubmit}>
                 <div className="field">
                   <label className="label">Give your quiz a title.</label>
-                  <div className="control">
                     <input
                       className="input"
                       type="text"
@@ -99,12 +110,10 @@ class App extends Component {
                       value={this.state.quizTitle}
                       onChange={this.handleChange}
                     />
-                  </div>
                 </div>
 
                 <div className="field">
                   <label className="label">Who's the Author?</label>
-                  <div className="control">
                     <input
                       className="input"
                       type="text"
@@ -112,26 +121,50 @@ class App extends Component {
                       value={this.state.author}
                       onChange={this.handleChange}
                     />
-                  </div>
                 </div>
 
                 <div className="questions" id="questions">
-                  {Array(this.state.numQuestions).fill().map((number, questionIdx) => {
+                  {this.state.numQuestions.map((question, questionIdx) => {
                     return (
-                      <div> 
-                        <label>Question</label>
-                      <input type="text" onChange={this.handleQuestionChange.bind(questionIdx)}  />
-                      </div>);
-                  Array(4).fill().map((number, index) => {
-                  return <input type="text" key={index} onChange={this.handleAnswerChange.bind(questionIdx)}  />
-                  })}
-                  )
-                  })}
+                      <div id={uuidv4()}> 
+                        <label>Question {questionIdx + 1}</label>
+                      <input type="text"  key={uuidv4()}/>
+                        {
+                        Array(4).fill().map((number, index) => {
+                          return (
+                            <div key={question.key}>
+                              <input key={uuidv4()} type="text" key={index} onChange={this.handleAnswerChange.bind(question, question.key)}  />
+                              {console.log(question.key)}
+                              {console.log(question)}
+                              {console.log('questions array ' + this.state.questions)}
+                              {console.log('answers array ' + this.state.answers)}
+                            </div>
+                            
+                          )
+                        })
+                        }
+                      </div>
+                    );
+                  }
+                  )}
                 </div>
+
+                {/* <div className="questions" id="questions">
+                  {Array(this.state.question).fill().map((questions, questionIdx) => {
+                    return (
+                      <div id={questionIdx}> 
+                        <label>Question {questionIdx + 1}</label>
+                    </div>);
+                  })
+                  }
+                </div> */}
+
+
+
               <div className="field">
                   <div className="endButtons">
                     <button id="addQuestionButton"
-                      onClick={addQuestion}>Add Question</button>
+                      onClick={this.addQuestion}>Add Question</button>
                     <input
                       type="submit"
                       value="Submit"
@@ -181,7 +214,7 @@ export default App;
             />\
           </div>\
         </div>\
-        \
+        \sfsffsfsfsfsf
         <div className="answersDiv">\
         <label className="label">Answers</label>\
           <div className="field">\
