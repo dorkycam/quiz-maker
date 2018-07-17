@@ -67,14 +67,14 @@ class App extends Component {
   addQuestion() {
     questionNum++;
     this.setState(previousState => {
-      const questions = [
+      var questions = [
                           ...previousState.questions,
                           <input 
                             type="text"
                             onChange={this.handleChange}
                           />
                         ];
-      const answers = [
+      var answers = [
                         ...previousState.answers,
                       ];
 
